@@ -166,12 +166,12 @@ function App() {
                         const percentFromTotal =
                           rowSum === 0 ? 0 : Math.round((cell.amount / rowSum) * 100);
 
-                        const heatPercent =
-                          rowMax === 0 ? 0 : (cell.amount / rowMax) * 100;
+                        const heatRatio = rowMax === 0 ? 0 : cell.amount / rowMax;
+                        const heatOpacity = 0.15 + heatRatio * 0.55;
 
                         const cellStyle = isPercentRow
                           ? ({
-                              "--heat": `${heatPercent}%`,
+                              backgroundColor: `rgba(52, 211, 153, ${heatOpacity})`,
                             } as CSSProperties)
                           : undefined;
 
@@ -193,7 +193,9 @@ function App() {
                             onMouseLeave={() => setHoveredCell(null)}
                             title={`Cell id: ${cell.id}`}
                           >
-                            {isPercentRow ? `${percentFromTotal}%` : cell.amount}
+                            <span>
+                              {isPercentRow ? `${percentFromTotal}%` : cell.amount}
+                            </span>
                           </td>
                         );
                       })}
